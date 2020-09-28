@@ -9,20 +9,16 @@ public class BinTree {
     }
 
     public BinTree(Object object) {
-        this.root = subBinTree(null, object, null);
-    }
-
-    public Node subBinTree(Node left, Object object, Node right) {
-        return new Node(left, object, right);
+        this.root = new Node(object);
     }
 
     public boolean isEmpty() {
         return root == null;
     }
 
-    public boolean root(Object object) {
+    public boolean root(Object object) {//todo ask
         try {
-            root = subBinTree(null, object, null);
+            root = new Node(object);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,10 +26,10 @@ public class BinTree {
         }
     }
 
-    public boolean insertleft(Object object) {
+    public boolean insertleft(Object object) { //todo ask
         try {
             if(!isEmpty()) {
-                root.left = subBinTree(null, object, null);
+                root.left = new Node(object);
                 return true;
             } else {
                 return false;
@@ -44,10 +40,10 @@ public class BinTree {
         }
     }
 
-    public boolean insertRight(Object object) {
+    public boolean insertRight(Object object) {//todo ask
         try {
             if(!isEmpty()) {
-                root.right = subBinTree(null, object, null);
+                root.right = new Node(object);
                 return true;
             } else {
                 return false;
@@ -80,9 +76,9 @@ public class BinTree {
             System.out.println("Ese elemento ya se encuentra en el árbol");
         }
     }
-
+    private Node res = null;
     public Node search(int num, Node root) {
-        Node res = null;
+
         if(num < (int)root.object){ //va por la izquierda
 
             search(num, root.left);
@@ -92,7 +88,7 @@ public class BinTree {
             search(num, root.right);
 
         }else{ // si son iguales lo retorna
-            res = root; //todo preguntar como hacer para que no lo redefina :(
+            res = root; 
         }
         return res;
     }
