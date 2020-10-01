@@ -19,13 +19,15 @@ public class Main {
 
         treeNum.root=new Node(new Node(new Node(new Node(22),43,
                 new Node(new Node(56),65,null)),87,
-                new Node(new Node(88),99,null)),120,
+                new Node(new Node(93),99,null)),120,
                 new Node(new Node(null,130,new Node(135)),140,null));
 
-
+        System.out.println(treeNum.remove(2));
+        /*
         treeNum.insert(57, treeNum.root);
         System.out.println(treeNum.toString());
 
         System.out.println(treeNum.search(57, treeNum.root).toString());
+         */
     }
 }

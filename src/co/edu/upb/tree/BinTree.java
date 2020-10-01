@@ -12,48 +12,6 @@ public class BinTree {
         this.root = new Node(object);
     }
 
-    public boolean isEmpty() {
-        return root == null;
-    }
-
-    public boolean root(Object object) {//todo ask
-        try {
-            root = new Node(object);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean insertleft(Object object) { //todo ask
-        try {
-            if(!isEmpty()) {
-                root.left = new Node(object);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean insertRight(Object object) {//todo ask
-        try {
-            if(!isEmpty()) {
-                root.right = new Node(object);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public void insert(int num, Node root) {
 
         if(num < (int)root.object){ //va por la izquierda
@@ -76,8 +34,13 @@ public class BinTree {
             System.out.println("Ese elemento ya se encuentra en el árbol");
         }
     }
+
     private Node res = null;
     public Node search(int num, Node root) {
+
+        if(root==null){
+            return null;
+        }
 
         if(num < (int)root.object){ //va por la izquierda
 
@@ -91,6 +54,46 @@ public class BinTree {
             res = root; 
         }
         return res;
+    }
+
+    public boolean remove(Object num) {
+        Node toRemove = search((int)num, this.root);
+        //todo obtener el nodo que apunta a toRemove para reasignarlo
+        if(toRemove == null){
+            return false;
+        }else{
+            int cont = countLeafs(toRemove);
+
+            if(cont == 2){//si tiene dos descendientes
+                if(toRemove.right.left != null){//nodo izquierdo del subarbol derecho
+                    toRemove = toRemove.right.left;
+                    //todo cambiar demás punteros
+                }else{
+                    toRemove = toRemove.left.right;
+                    //todo cambiar demás punteros
+                }
+            }else if(cont == 1){//si tiene un solo descendiente
+                if(toRemove.right != null){//si el descendiente esta a la izquierda
+                    toRemove = toRemove.right;
+                }else{
+                    toRemove = toRemove.left;
+                }
+            }else {//cont == 2 si es una hoja
+                toRemove = null;
+            }
+            return true;
+        }
+    }
+
+    public int countLeafs(Node root){
+        int cont = 0;
+        if(root.right != null){
+            cont++;
+        }
+        if(root.left != null){
+            cont++;
+        }
+        return cont;
     }
 
     public String preOrder(Node root) {
