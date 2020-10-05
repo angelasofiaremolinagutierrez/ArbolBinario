@@ -12,6 +12,38 @@ public class BinTree {
         this.root = new Node(object);
     }
 
+    //Desde aqui el taller de 5 de Octubre
+
+    //A.
+
+    //B. Crear funciones
+    //1. Total de nodos
+    public int totalNodos(String exp){
+        return 0; //todo
+    }
+    //2. Mayor ID
+    public Object mayorID(Node root){
+        Object finale = root.object;
+        if(root.right != null){
+            finale = mayorID(root.right);
+        }
+        return finale;
+    }
+    //3. Menor ID
+    public Object menorID(Node root){
+        Object finale = root.object;
+        if(root.left != null){
+            finale = mayorID(root.left);
+        }
+        return finale;
+    }
+    //4. Imprimir las hojas
+    public void printLeafs(){
+
+    }
+    //5. Imprimir los niveles (n)
+
+
     public void insert(int num, Node root) {
 
         if(num < (int)root.object){ //va por la izquierda
@@ -35,20 +67,19 @@ public class BinTree {
         }
     }
 
-    private Node res = null;
-    public Node search(int num, Node root) {
 
+    public Node searchNum(int num, Node root) {
+        Node res = null;
         if(root==null){
             return null;
         }
-
         if(num < (int)root.object){ //va por la izquierda
 
-            search(num, root.left);
+            res = searchNum(num, root.left);
 
         }else if(num > (int)root.object){ //va por la derecha
 
-            search(num, root.right);
+            res = searchNum(num, root.right);
 
         }else{ // si son iguales lo retorna
             res = root; 
@@ -56,8 +87,28 @@ public class BinTree {
         return res;
     }
 
+    public Node search(Node root, Object object) {
+        Node result = null;
+        if (root != null) {
+            //result = (root.object.toString().equals(object.toString())) ? root : null;
+            if(root.object.toString().equals(object.toString())){
+                result= root;
+            }else{
+                result = null;
+            }
+            if (result == null) {
+                result = search(root.left, object);
+                if (result == null) {
+                    result = search(root.right, object);
+                }
+            }
+        }
+        return result;
+    }
+
+
     public boolean remove(Object num) {
-        Node toRemove = search((int)num, this.root);
+        Node toRemove = searchNum((int)num, this.root);
         //todo obtener el nodo que apunta a toRemove para reasignarlo
         if(toRemove == null){
             return false;
