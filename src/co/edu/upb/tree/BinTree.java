@@ -44,14 +44,14 @@ public class BinTree {
     //5. Imprimir los niveles (n)
 
 
-    public void insert(int num, Node root) {
+    public void insertNum(int num, Node root) {
 
         if(num < (int)root.object){ //va por la izquierda
 
             if(root.left == null){
                 root.left = new Node(num);
             }else{
-                insert(num, root.left);
+                insertNum(num, root.left);
             }
 
         }else if(num > (int)root.object){ //va por la derecha
@@ -59,7 +59,7 @@ public class BinTree {
             if(root.right == null){
                 root.right = new Node(num);
             }else{
-                insert(num, root.right);
+                insertNum(num, root.right);
             }
 
         }else{ // si son iguales no lo agrega
@@ -106,33 +106,79 @@ public class BinTree {
         return result;
     }
 
-
-    public boolean remove(Object num) {
-        Node toRemove = searchNum((int)num, this.root);
-        //todo obtener el nodo que apunta a toRemove para reasignarlo
-        if(toRemove == null){
+    Node anterior = null;
+    boolean lor; //true izq; false der
+    public boolean remove(int num,Node root) {
+        if(root == null){
+            anterior = this.root;
             return false;
         }else{
-            int cont = countLeafs(toRemove);
+            if(num < (int)root.object){ //va por la izquierda
 
-            if(cont == 2){//si tiene dos descendientes
-                if(toRemove.right.left != null){//nodo izquierdo del subarbol derecho
-                    toRemove = toRemove.right.left;
-                    //todo cambiar demás punteros
-                }else{
-                    toRemove = toRemove.left.right;
-                    //todo cambiar demás punteros
+                anterior = root;
+                lor = true;
+                return remove(num, root.left);
+
+            }else if(num > (int)root.object){ //va por la derecha
+
+                anterior = root;
+                lor = false;
+                return remove(num, root.right);
+
+            }else{ // si son iguales encontró el nodo a eliminar
+                if((num == (int)this.root.object) && (this.root.toString().equals(root.toString()))){//si se va a eliminar la raiz
+                    Node temp = new Node('x');
+                    temp.right = root;
+                    anterior = temp;
+                    lor = false;
                 }
-            }else if(cont == 1){//si tiene un solo descendiente
-                if(toRemove.right != null){//si el descendiente esta a la izquierda
-                    toRemove = toRemove.right;
-                }else{
-                    toRemove = toRemove.left;
+
+                int cont = countLeafs(root);
+
+                if(cont == 2){//si tiene dos descendientes
+                    //TODO si tiene dos descendientes
+
+                    if(root.right.left != null){//nodo izquierdo del subarbol derecho
+                        if(lor){
+                            anterior.left.setObject(root.right.left.object);
+                        }else{
+                            anterior.right.setObject(root.right.left.object);
+                        }
+                        remove((int)root.right.left.object,root.right);
+                    }else{ //nodo derecho del subarbol izquierdo
+                        if(lor){
+                            anterior.left.setObject(root.left.right.object);
+                        }else{
+                            anterior.right.setObject(root.left.right.object);
+                        }
+                        remove((int)root.left.right.object,root.left);
+                    }
+                }else if(cont == 1){//si tiene un solo descendiente
+                    if(lor){
+                        if(root.right != null){//si el descendiente esta a la izquierda
+                            anterior.left = root.right;
+                        }else{
+                            anterior.left = root.left;
+                        }
+                    }else{
+                        if(root.right != null){//si el descendiente esta a la izquierda
+                            anterior.right = root.right;
+                        }else{
+                            anterior.right = root.left;
+                        }
+                    }
+
+                }else {//cont == 2 si es una hoja
+                    if(lor){
+                        anterior.left = null;
+                    }else{
+                        anterior.right = null;
+                    }
                 }
-            }else {//cont == 2 si es una hoja
-                toRemove = null;
+                anterior = this.root;
+                return true;
             }
-            return true;
+
         }
     }
 

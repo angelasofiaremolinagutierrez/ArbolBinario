@@ -22,6 +22,9 @@ public class Main {
                 new Node(new Node(null,130,new Node(135)),140,null));
 
         System.out.println(treeNum.searchNum(135, treeNum.root));
-
+        treeNum.remove(22, treeNum.root);
+        treeNum.remove(99, treeNum.root);
+        treeNum.remove(87, treeNum.root);
+        treeNum.remove(120, treeNum.root);
     }
 }
